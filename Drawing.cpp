@@ -242,18 +242,39 @@ void Drawing::drawMenu(Spherical& camera, sf::Vector2u size, Block& current_bloc
     ImGui::Begin("Button frame", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar);
         ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[1]);
         ImGui::SetCursorPos(ImVec2((button_frame_size.x - Settings::button_size_x) / 2.0f, (button_frame_size.y * (1.0f - Settings::button_y_ratio)) / 2.0f));
-        if (Settings::game_started) colors[ImGuiCol_Text] = Settings::imgui_text_inactive_color;
-        if (ImGui::Button("Start game", ImVec2(Settings::button_size_x, button_frame_size.y * Settings::button_y_ratio)) && !Settings::game_started)
+        if (!Settings::game_started)
         {
-            Settings::reset();
-            Grid::reset();
-            current_block.setNew();
-            next_block.setNew();
-            Settings::first_game = false;
-            Settings::game_started = true;
-            setButtonInactive();
+            if (ImGui::Button("Start game", ImVec2(Settings::button_size_x, button_frame_size.y * Settings::button_y_ratio)))
+            {
+                Settings::reset();
+                Grid::reset();
+                current_block.setNew();
+                next_block.setNew();
+                Settings::first_game = false;
+                Settings::game_started = true;
+            }
         }
-        if (Settings::game_started) colors[ImGuiCol_Text] = Settings::imgui_text_color;
+        else
+        {
+            if (Settings::game_paused || Settings::lost_focus)
+            {
+                setButtonInactive();
+                colors[ImGuiCol_Text] = Settings::imgui_text_inactive_color;
+            }
+            else
+            {
+                setButtonActive();
+                colors[ImGuiCol_Text] = Settings::imgui_text_color;
+            }
+            if (ImGui::Button("Reset", ImVec2(Settings::button_size_x, button_frame_size.y * Settings::button_y_ratio)) && !Settings::game_paused && !Settings::lost_focus)
+            {
+                Settings::reset();
+                Grid::reset();
+                Settings::first_game = true;
+            }
+            colors[ImGuiCol_Text] = Settings::imgui_text_color;
+        }
+        
         ImGui::PopFont();
     ImGui::End();
 }
