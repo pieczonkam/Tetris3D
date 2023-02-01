@@ -11,8 +11,5 @@ Tetris 3D game made in C++ with SFML, ImGui and OpenGL 2.0
 - ***Esc***: quit game
 
 ## Screenshots
-<p float="left">
-  <img src="/screenshots/gameplay.jpg" width="400" height="600" />
-  &nbsp;&nbsp;
-  <img src="/screenshots/game_over.jpg" width="400" height="600" />   
-</p>
+<img src="/screenshots/gameplay.jpg" width="500" height="650" />
+<img src="/screenshots/game_over.jpg" width="500" height="650" />   
