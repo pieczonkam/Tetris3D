@@ -164,7 +164,10 @@ int main()
                             Settings::level = Settings::score / 1000;
                         }
                         else
+                        {
                             Settings::game_started = false;
+                            Drawing::setButtonActive();
+                        }
                     }
 
                     if (Settings::show_hint) { hint_block.copy(current_block, true); Grid::setHintY(hint_block); }
